@@ -1,14 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import s from './ImageGallery.module.css'
 
-export class ImageGallery extends Component {
+export function ImageGallery ({children}) {
 
-
-  render() {
     return (
-      <ul className="ImageGallery">
-  
+      <ul className={s.imageGallery}>
+        {children}
       </ul>
     )
-  }
 }
