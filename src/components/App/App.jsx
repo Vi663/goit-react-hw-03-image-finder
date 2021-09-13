@@ -56,7 +56,7 @@ export class App extends Component {
        if (data.hits.length === 0) { this.setState({ status: 'rejected' }) }
        else {
          this.setState(prevState => ({
-           newImages: data, status: 'resolved', images: [...prevState.images, ...this.state.newImages]
+           ...prevState, newImages: data, images: [...prevState.images, data], status: 'resolved'
          })) 
        } console.log(this.state.images);
      }).catch(error => this.setState({ status: 'rejected' }))
@@ -102,9 +102,9 @@ export class App extends Component {
   }
 
   onLoadNext = () => {
-    // this.setState(({page}) => ({
-    // //   page: page + 1,
-    // // }));
+    this.setState(({page}) => ({
+      page: page + 1,
+    }));
     
     this.toTop();
   }
@@ -117,7 +117,7 @@ export class App extends Component {
         {status === 'resolved' &&
           <ImageGallery>
           <ImageGalleryItem
-            response={images}
+            response={images[0].hits}
             onSelect={this.onImageClick} />
           </ImageGallery>}
         {status === 'resolved' && <Button onHandleSubmit={this.onLoadNext}/>}
