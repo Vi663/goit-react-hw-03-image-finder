@@ -27,9 +27,10 @@ export class App extends Component {
       this.setState({ status: 'pending', images: [] });
       this.fetchImages();
       this.setState({ page: 1 })
-    } else if (prevState.page !== this.state.page) {
-      this.fetchImages();
     }
+    // else if (prevState.page !== this.state.page) {
+    //   this.fetchImages();
+    // }
   };
 
   componentDidMount() {
