@@ -20,18 +20,16 @@ export class App extends Component {
     isModalOpen: false,
     imageData: '',
     images: [],
-    newImages: [],
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevState.searchInput !== this.state.searchInput) {
-      this.setState({ status: 'pending' })
-        this.fetchImages();
-      this.toBottom();
-      //  this.setState({ page: 1 })
-    } //else if (prevState.page !== this.state.page) {
-    //   this.fetchImages();
-    // }
+      this.setState({ status: 'pending', images: [] });
+      this.fetchImages();
+      this.setState({ page: 1 })
+    } else if (prevState.page !== this.state.page) {
+      this.fetchImages();
+    }
   };
 
   componentDidMount() {
@@ -51,14 +49,14 @@ export class App extends Component {
   async fetchImages() {
     const { url, page, key, searchInput } = this.state;
     await fetch(`https://${url}?q=${searchInput}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
-     .then(response => {return response.json();
+     .then(response => { return response.json();
      }).then(data => {
        if (data.hits.length === 0) { this.setState({ status: 'rejected' }) }
        else {
          this.setState(prevState => ({
-           ...prevState, newImages: data, images: [...prevState.images, data], status: 'resolved'
+           ...prevState, images: [...prevState.images, ...data.hits], status: 'resolved'
          })) 
-       } console.log(this.state.images);
+       }
      }).catch(error => this.setState({ status: 'rejected' }))
     this.setStatus();
   };
@@ -102,7 +100,7 @@ export class App extends Component {
   }
 
   onLoadNext = () => {
-    const nextPage = this.state.page
+    const nextPage = this.state.page + 1
     this.setState(({page}) => ({
       page: nextPage,
     }));
@@ -118,7 +116,7 @@ export class App extends Component {
         {status === 'resolved' &&
           <ImageGallery>
           <ImageGalleryItem
-            response={images[0].hits}
+            response={images}
             onSelect={this.onImageClick} />
           </ImageGallery>}
         {status === 'resolved' && <Button onHandleSubmit={this.onLoadNext}/>}
