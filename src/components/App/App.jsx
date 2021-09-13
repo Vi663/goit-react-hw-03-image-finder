@@ -52,10 +52,11 @@ export class App extends Component {
     await fetch(`https://${url}?q=${searchInput}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
      .then(response => { return response.json();
      }).then(data => {
-       if (data.hits.length === 0) { this.setState({ status: 'rejected' }) }
-       else {
+       if (data.hits.length === 0) {
+         this.setState({ status: 'rejected' })
+       } else {
          this.setState(prevState => ({
-           ...prevState, images: [...prevState.images, ...data.hits], status: 'resolved'
+           images: [...prevState.images, ...data.hits], status: 'resolved'
          })) 
        }
      }).catch(error => this.setState({ status: 'rejected' }))
@@ -101,9 +102,8 @@ export class App extends Component {
   }
 
   onLoadNext = () => {
-    const nextPage = this.state.page + 1
     this.setState(({page}) => ({
-      page: nextPage,
+      page: page + 1,
     }));
     this.fetchImages();
     this.toTop();
@@ -124,10 +124,10 @@ export class App extends Component {
         { isModalOpen &&
           <Modal imageURL={imageData} onClose={this.onTogleMoodal} />}
         {status === 'pending' && <Loader
-          type="Puff"
+          type="ThreeDots"
           color="#3f51b5"
-          height={100}
-          width={100}
+          height={40}
+          width={40}
           timeout={3000}
         />}
       <ToastContainer theme="colored" autoClose='2000'/>
