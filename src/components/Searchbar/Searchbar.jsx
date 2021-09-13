@@ -23,7 +23,7 @@ export class Searchbar extends Component {
     if (this.state.input.trim() === "") {
       toast.error("Please, fulfill the search form");
     }
-    // this.clearInput();
+    this.clearInput();
   }
 
   render() {

@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './Button.module.css'
 
-export const Button = ({onhandleSubmit}) => {
+export function Button ({onHandleSubmit}) {
     return (
-      <button onSubmit={() => onhandleSubmit()} type="submit" className={s.button}>
+      <button onClick={() => onHandleSubmit()} type="button" className={s.button}>
         Load more images
       </button>
     )
