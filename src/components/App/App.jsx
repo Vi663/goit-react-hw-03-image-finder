@@ -28,7 +28,7 @@ export class App extends Component {
       this.setState({ status: 'pending' })
         this.fetchImages();
       this.toBottom();
-       this.setState({ page: 1 })
+      //  this.setState({ page: 1 })
     } //else if (prevState.page !== this.state.page) {
     //   this.fetchImages();
     // }
@@ -102,10 +102,11 @@ export class App extends Component {
   }
 
   onLoadNext = () => {
+    const nextPage = this.state.page
     this.setState(({page}) => ({
-      page: page + 1,
+      page: nextPage,
     }));
-    
+    this.fetchImages();
     this.toTop();
   }
 
